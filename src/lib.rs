@@ -7,7 +7,7 @@ pub struct Money {
     code: String,
 }
 
-const VALID_CURRENCIES: [&str; 3] = ["USD", "EUR", "JPY"];
+const VALID_CURRENCIES: [&str; 16] = ["USD", "EUR", "JPY", "GBP", "CNY", "INR", "BRL", "CAD", "AUD", "MXN","CHF","HKD","SGD","SEK","NOK","DKK"];
 
 impl Money {
     pub fn new(amount: i32, cents: i32, currency: &str, locale: &str, code: &str) -> Money {
@@ -109,8 +109,22 @@ impl Money {
             "fr-FR" => "€",
             "de-DE" => "€",
             "ja-JP" => "¥",
-            _ => self.currency.as_str(),
+            "en-GB" => "£",
+            "zh-CN" => "¥",
+            "hi-IN" => "₹",
+            "pt-BR" => "R$",
+            "en-CA" => "$",
+            "en-AU" => "$",
+            "es-MX" => "$",
+            "fr-CH" => "CHF",
+            "zh-HK" => "$",
+            "en-SG" => "$",
+            "sv-SE" => "kr",
+            "nb-NO" => "kr",
+            "da-DK" => "kr",
+            _ => self.code.as_str(),
         };
         format!("{}{}.{:02} {}", symbol, self.amount, self.cents, self.code)
-    }
+}
+
 }
