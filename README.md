@@ -10,21 +10,17 @@ A Money object is created by supplying an amount and a currency. Amounts can be 
 use money;
 
 fn main() {
-    let m1 = money::Money::new(100, 50, "USD");
-    let m2 = money::Money::new(200, 75, "USD");
-    let m3 = m1.add(&m2);
-    println!("{}", m3.format()); // prints "301.25 USD"
-    
-    let m4 = m3.subtract(&m1);
-    println!("{}", m4.format()); // prints "200.75 USD"
-    
-    let m5 = m4.multiply(0.5);
-    println!("{}", m5.format()); // prints "100.38 USD"
-    
-    let m6 = m5.divide(2.0);
-    println!("{}", m6.format()); // prints "50.19 USD"
-    
-    let m7 = money::Money::from_currency(123.45, "USD");
-    println!("{}", m7.format()); // prints "123.45 USD"
+    let money1 = money::Money::new(10, 50, "USD", "en-US", "USD");
+    let money2 = money::Money::new(5, 25, "USD", "en-US", "USD");
+    let money3 = money1.add(&money2);
+    println!("{}", money3.format()); // Prints "16.75 USD"
+
+    let money4 = money::Money::new(20, 0, "EUR", "fr-FR", "EUR");
+    let money5 = money4.multiply(2.0);
+    println!("{}", money5.format()); // Prints "40.00 €"
+
+    let money6 = money::Money::new(10, 0, "JPY", "ja-JP", "JPY");
+    let money7 = money6.divide(3.0);
+    println!("{}", money7.format()); // Prints "3.33 ¥"
 }
 ```
