@@ -3,18 +3,27 @@ pub struct Money {
     amount: i32,
     cents: i32,
     currency: String,
+    locale: String,
+    code: String,
 }
 
+const VALID_CURRENCIES: [&str; 3] = ["USD", "EUR", "JPY"];
+
 impl Money {
-    pub fn new(amount: i32, cents: i32, currency: &str) -> Money {
+    pub fn new(amount: i32, cents: i32, currency: &str, locale: &str, code: &str) -> Money {
+        if !VALID_CURRENCIES.contains(&currency) {
+            panic!("Invalid currency code: {}", currency);
+        }
         Money {
             amount,
             cents,
             currency: currency.to_string(),
+            locale: locale.to_string(),
+            code: code.to_string(),
         }
     }
 
-    pub fn from_currency(amount: f32, currency: &str) -> Money {
+    pub fn from_currency(amount: f32, currency: &str, locale: &str, code: &str) -> Money {
         let mut cents = (amount * 100.0) as i32;
         let mut amount = 0;
         if cents >= 100 {
@@ -25,6 +34,8 @@ impl Money {
             amount,
             cents,
             currency: currency.to_string(),
+            locale: locale.to_string(),
+            code: code.to_string(),
         }
     }
 
@@ -39,6 +50,8 @@ impl Money {
             amount,
             cents,
             currency: self.currency.clone(),
+            locale: self.locale.to_string(),
+            code: self.code.to_string(),
         }
     }
 
@@ -53,6 +66,8 @@ impl Money {
             amount,
             cents,
             currency: self.currency.clone(),
+            locale: self.locale.to_string(),
+            code: self.code.to_string(),
         }
     }
 
@@ -67,6 +82,8 @@ impl Money {
             amount,
             cents,
             currency: self.currency.clone(),
+            locale: self.locale.to_string(),
+            code: self.code.to_string(),
         }
     }
 
@@ -81,10 +98,19 @@ impl Money {
             amount,
             cents,
             currency: self.currency.clone(),
+            locale: self.locale.to_string(),
+            code: self.code.to_string(),
         }
     }
 
     pub fn format(&self) -> String {
-        format!("{}.{:02} {}", self.amount, self.cents, self.currency)
+        let symbol = match self.locale.as_str() {
+            "en-US" => "$",
+            "fr-FR" => "€",
+            "de-DE" => "€",
+            "ja-JP" => "¥",
+            _ => self.currency.as_str(),
+        };
+        format!("{}{}.{:02} {}", symbol, self.amount, self.cents, self.code)
     }
 }
